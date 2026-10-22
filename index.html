@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>Mi Cuaderno Lúdico · Observar y Escribir EVCDI-R 2026</title>
+<style>
+:root{
+  --primary:#2563eb;--primary-dark:#1d4ed8;--accent:#f59e0b;--bg:#f8fafc;
+  --text:#1e293b;--muted:#64748b;--card-border:#e2e8f0;--font:19px;
+  --success:#10b981;--success-bg:#ecfdf5;--warning:#f59e0b;--warning-bg:#fffbeb;
+  --danger:#ef4444;--danger-bg:#fef2f2;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:radial-gradient(circle at 10% 0%,#e0f2fe,transparent 40%),#f1f5f9;
+  font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text);font-size:var(--font);line-height:1.45;-webkit-font-smoothing:antialiased;
+}
+button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.app{max-width:960px;margin:auto;padding:14px 14px 110px;min-height:100svh}
+
+/* Cabecera amigable */
+.header{
+  background:#ffffff;border:2px solid #e2e8f0;border-radius:24px;padding:12px 18px;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;box-shadow:0 6px 18px #0f172a08;
+  margin-bottom:12px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{
+  width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  display:grid;place-items:center;color:#fff;font-size:1.4rem;box-shadow:0 4px 12px #3b82f633;
+}
+.brand-info strong{display:block;font-size:1.1rem;color:#0f172a;font-weight:900}
+.brand-info small{display:block;font-size:.74rem;color:#64748b;font-weight:700}
+.header-actions{display:flex;gap:6px;align-items:center}
+.btn-tool{
+  border:1px solid #cbd5e1;background:#f8fafc;color:#334155;border-radius:12px;
+  padding:8px 12px;font-size:.76rem;font-weight:800;min-height:42px;display:inline-flex;align-items:center;gap:5px;
+}
+.btn-tool:hover{background:#f1f5f9}
+.btn-tool[aria-pressed=true]{background:#dbeafe;border-color:#93c5fd;color:#1e40af}
+
+/* Barra interactiva de progreso lúdica */
+.gamified-nav{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;
+}
+.nav-tab{
+  background:#fff;border:2px solid #e2e8f0;border-radius:18px;padding:9px 6px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .18s ease;position:relative;
+}
+.nav-tab .step-num{
+  width:28px;height:28px;border-radius:50%;background:#f1f5f9;color:#64748b;
+  display:grid;place-items:center;font-size:.82rem;font-weight:900;
+}
+.nav-tab .step-label{font-size:.74rem;font-weight:800;color:#64748b}
+.nav-tab.active{
+  border-color:var(--primary);background:#eff6ff;box-shadow:0 6px 14px #2563eb18;transform:translateY(-2px);
+}
+.nav-tab.active .step-num{background:var(--primary);color:#fff}
+.nav-tab.active .step-label{color:var(--primary);font-weight:900}
+.nav-tab:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* Escenario de actividades */
+.stage{
+  background:#ffffff;border:2px solid #e2e8f0;border-radius:26px;padding:20px;
+  box-shadow:0 10px 30px #0f172a0a;
+}
+.stage-hero{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;
+}
+.badge{
+  display:inline-block;padding:4px 10px;background:#e0f2fe;color:#0369a1;
+  border-radius:99px;font-size:.72rem;font-weight:900;text-transform:uppercase;margin-bottom:6px;
+}
+.stage-hero h2{margin:0;font-size:1.35rem;color:#0f172a;font-weight:900}
+.stage-hero p{margin:4px 0 0;font-size:.82rem;color:var(--muted)}
+.btn-voice{
+  border:2px solid #93c5fd;background:#eff6ff;color:#1d4ed8;border-radius:14px;
+  padding:10px 14px;font-weight:900;font-size:.8rem;display:inline-flex;align-items:center;gap:7px;min-height:46px;flex:none;
+}
+.btn-voice:hover{background:#dbeafe}
+
+/* Paso 1: Edades con tarjetas ilustradas */
+.age-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.age-btn{
+  border:2px solid var(--border-color,#cbd5e1);background:var(--bg-card,#fff);border-radius:20px;
+  padding:14px;display:flex;justify-content:space-between;align-items:center;text-align:left;
+  transition:all .16s ease;gap:8px;
+}
+.age-btn:hover{transform:translateY(-3px);box-shadow:0 8px 18px #0f172a12}
+.age-btn strong{display:block;font-size:1.05rem;color:#0f172a;font-weight:900}
+.age-btn small{display:block;font-size:.73rem;color:#475569;font-weight:700}
+.age-btn .play-hint{font-size:.72rem;font-weight:900;color:var(--primary);margin-top:6px;display:block}
+.age-btn img{width:90px;height:75px;object-fit:contain;mix-blend-mode:multiply;border-radius:12px}
+
+/* Paso 2: Temas / Relaciones */
+.topic-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.topic-btn{
+  border:2px solid #cbd5e1;background:#fff;border-radius:20px;padding:16px;text-align:left;
+  display:flex;flex-direction:column;gap:10px;transition:all .16s ease;
+}
+.topic-btn:hover{transform:translateY(-3px);border-color:var(--primary);box-shadow:0 8px 18px #2563eb15}
+.topic-icon{
+  width:50px;height:50px;border-radius:16px;background:var(--topic-bg,#eff6ff);
+  display:grid;place-items:center;color:var(--topic-color,#2563eb);
+}
+.topic-btn strong{font-size:1.05rem;color:#0f172a;font-weight:900}
+.topic-btn p{margin:0;font-size:.76rem;color:var(--muted);line-height:1.35}
+
+/* Paso 3: E / P / A */
+.rate-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rate-btn{
+  border:2px solid var(--rate-border);background:var(--rate-bg);border-radius:20px;padding:18px 16px;
+  text-align:left;transition:all .16s ease;
+}
+.rate-btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px #0f172a10}
+.rate-circle{
+  width:52px;height:52px;border-radius:16px;background:var(--rate-dot);color:#fff;
+  font-weight:900;font-size:1.5rem;display:grid;place-items:center;margin-bottom:12px;
+}
+.rate-btn strong{display:block;font-size:1.05rem;color:#0f172a;font-weight:900}
+.rate-btn small{display:block;color:#475569;font-size:.76rem;margin-top:6px;line-height:1.4}
+
+/* Paso 4: Lista interactiva de ejemplos */
+.example-card{
+  border:2px solid #e2e8f0;background:#ffffff;border-radius:18px;padding:14px;
+  margin-bottom:10px;display:flex;flex-direction:column;gap:10px;transition:all .15s ease;
+}
+.example-card.selected{border-color:var(--success);background:#f0fdf4}
+.example-body{display:flex;align-items:flex-start;gap:10px}
+.example-num{
+  width:30px;height:30px;border-radius:10px;background:#e0f2fe;color:#0369a1;
+  display:grid;place-items:center;font-weight:900;font-size:.78rem;flex:none;
+}
+.example-text{font-size:.98rem;font-weight:700;color:#1e293b;line-height:1.4;flex:1}
+.example-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.btn-card-action{
+  border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:12px;padding:8px 12px;
+  font-size:.76rem;font-weight:800;min-height:42px;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-card-action:hover{background:#f1f5f9}
+.btn-card-action.btn-select{
+  background:var(--success);border-color:var(--success);color:#fff;font-size:.8rem;font-weight:900;
+}
+.btn-card-action.btn-select:hover{background:#059669}
+.btn-card-action.speaking{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* Asistente interactivo: ¡Toca y Construye! */
+.constructor-box{
+  background:linear-gradient(180deg,#f8fafc,#eff6ff);border:2px solid #bfdbfe;
+  border-radius:22px;padding:18px;margin-top:16px;box-shadow:0 10px 24px #2563eb10;
+}
+.constructor-header{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;
+}
+.constructor-header h3{margin:0;font-size:1.1rem;color:#1e40af;font-weight:900}
+.kid-name-input{
+  border:2px solid #93c5fd;border-radius:12px;padding:8px 12px;font-size:.85rem;
+  font-weight:700;color:#1e293b;background:#fff;max-width:230px;width:100%;
+}
+.question-group{margin-bottom:12px}
+.question-title{display:block;font-size:.76rem;font-weight:900;color:#1e40af;margin-bottom:6px}
+.chips-cloud{display:flex;gap:7px;flex-wrap:wrap}
+.chip-click{
+  border:1.5px solid #cbd5e1;background:#ffffff;color:#334155;border-radius:12px;
+  padding:8px 12px;font-size:.76rem;font-weight:800;min-height:40px;transition:all .14s ease;
+}
+.chip-click:hover{background:#e0f2fe;border-color:#93c5fd}
+.chip-click.active{
+  background:#2563eb;border-color:#2563eb;color:#ffffff;box-shadow:0 4px 10px #2563eb30;
+}
+.constructor-box textarea{
+  width:100%;min-height:90px;border:2px solid #93c5fd;border-radius:14px;padding:12px;
+  font-family:inherit;font-size:.94rem;font-weight:700;color:#0f172a;background:#fff;
+  resize:vertical;line-height:1.45;
+}
+.action-bar-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn-primary-action{
+  border:none;background:var(--success);color:#fff;border-radius:14px;padding:12px 18px;
+  font-weight:900;font-size:.82rem;min-height:46px;display:inline-flex;align-items:center;gap:7px;
+  box-shadow:0 4px 12px #10b98126;
+}
+.btn-primary-action:hover{background:#059669}
+.btn-whatsapp{background:#16a34a}
+.btn-whatsapp:hover{background:#15803d}
+.btn-secondary-action{
+  border:1.5px solid #cbd5e1;background:#fff;color:#334155;border-radius:14px;padding:10px 14px;
+  font-weight:800;font-size:.78rem;min-height:46px;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-secondary-action:hover{background:#f8fafc}
+
+/* Historial / Cuaderno del día */
+.notebook-drawer{
+  margin-top:20px;background:#fff;border:2px solid #e2e8f0;border-radius:20px;padding:16px;
+}
+.notebook-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.notebook-title h4{margin:0;font-size:.9rem;color:#0f172a;font-weight:900}
+.saved-item{
+  background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-bottom:8px;
+  font-size:.78rem;display:flex;justify-content:space-between;align-items:center;gap:8px;
+}
+.saved-item span{color:#334155;font-weight:600;flex:1}
+
+/* Barra inferior de audio / feedback */
+.audioBar{
+  position:fixed;bottom:14px;left:14px;right:14px;max-width:760px;margin:auto;
+  background:#0f172a;color:#fff;display:flex;align-items:center;gap:12px;border-radius:20px;
+  padding:12px 16px;box-shadow:0 12px 30px #0f172a38;z-index:99;
+}
+.audio-pulse{
+  width:14px;height:14px;border-radius:50%;background:#38bdf8;flex:none;transition:all .2s;
+}
+.audio-pulse.on{background:#4ade80;box-shadow:0 0 0 5px #4ade8033;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+.audio-info{flex:1;min-width:0;font-size:.78rem;font-weight:700;color:#f1f5f9}
+.btn-audio-stop{
+  background:#334155;color:#fff;border:none;border-radius:10px;padding:8px 12px;
+  font-size:.74rem;font-weight:800;flex:none;
+}
+.btn-audio-stop:hover{background:#475569}
+
+/* Responsivo para celulares de 5.5 a 6.5 pulgadas */
+@media(max-width:768px){
+  .app{padding:10px 10px 100px}
+  .age-cards{grid-template-columns:repeat(2,1fr)}
+  .topic-cards{grid-template-columns:1fr}
+  .rate-cards{grid-template-columns:1fr}
+  .rate-btn{display:flex;align-items:center;gap:14px;padding:12px}
+  .rate-circle{margin:0;width:46px;height:46px;font-size:1.3rem;flex:none}
+  .age-btn{flex-direction:column;align-items:center;text-align:center;padding:10px}
+  .age-btn img{height:65px;width:80px;order:-1}
+  .btn-primary-action,.btn-whatsapp,.btn-secondary-action{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Cabecera -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true">🧸</div>
+      <div class="brand-info">
+        <strong>Mi Cuaderno Lúdico</strong>
+        <small>Guía para Madres Comunitarias · EVCDI-R 2026</small>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-tool" id="btnHome" type="button">🏠 Inicio</button>
+      <button class="btn-tool" id="btnHelp" type="button">❓ Ayuda</button>
+      <button class="btn-tool" id="btnSound" aria-pressed="true" type="button">🔊 Voz: SÍ</button>
+    </div>
+  </header>
+
+  <!-- Pasos lúdicos -->
+  <nav class="gamified-nav" aria-label="Pasos">
+    <button class="nav-tab active" data-step="age" type="button">
+      <span class="step-num">1</span>
+      <span class="step-label">Edad</span>
+    </button>
+    <button class="nav-tab" data-step="topic" disabled type="button">
+      <span class="step-num">2</span>
+      <span class="step-label">Tema</span>
+    </button>
+    <button class="nav-tab" data-step="rating" disabled type="button">
+      <span class="step-num">3</span>
+      <span class="step-label">E / P / A</span>
+    </button>
+    <button class="nav-tab" data-step="examples" disabled type="button">
+      <span class="step-num">4</span>
+      <span class="step-label">Armar</span>
+    </button>
+  </nav>
+
+  <p class="sr-only" id="srNotice" role="status" aria-live="polite"></p>
+
+  <!-- Escenario central -->
+  <main id="mainStage" class="stage"></main>
+
+  <!-- Historial tipo libreta de campo -->
+  <section class="notebook-drawer" id="notebookSection" hidden>
+    <div class="notebook-title">
+      <h4>📒 Mis observaciones guardadas hoy</h4>
+      <button class="btn-tool" id="clearNotebook" type="button" style="padding:4px 8px;min-height:30px">Borrar lista</button>
+    </div>
+    <div id="notebookItems"></div>
+  </section>
+
+  <!-- Barra flotante de sonido -->
+  <div class="audioBar" id="audioBar">
+    <span class="audio-pulse" id="audioDot" aria-hidden="true"></span>
+    <span class="audio-info" id="audioMsg">Toca cualquier botón para escuchar o comenzar.</span>
+    <button class="btn-audio-stop" id="stopAudioBtn" type="button">■ Detener</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ==============================================================
+   BANCO OFICIAL DE DATOS EVCDI-R 2026 (INTEGRO)
+============================================================== */
+const AGES=[
+  {"short":"0 a 5 meses","age":"0 a 5 meses y 29 días","tag":"Bebés pequeños","comp":[
+    {"obs":["Sonríe al escuchar una voz conocida.","Busca con la mirada el rostro de su cuidador.","Responde con gestos cuando le hablan.","Se calma durante el contacto cercano con el adulto.","Expresa agrado mediante sonrisas y movimientos.","Emite sonidos suaves durante las interacciones."],"pro":["Muestra avance al responder con sonidos a las voces cercanas.","Está fortaleciendo los intercambios de miradas con apoyo del adulto.","Continúa descubriendo formas de expresar sus necesidades."],"seg":["Se observó que busca con más frecuencia la mirada cuando le hablan."],"cie":["Se observó que fortaleció su respuesta afectiva a las personas conocidas.","Continúa ampliando sus formas de comunicación corporal."],"ale":["Durante las interacciones observadas, aún no se evidencia respuesta a las voces cercanas.","En los momentos de cuidado observados, todavía no se evidencian respuestas gestuales ante el adulto.","Aún no se ha observado intercambio de miradas durante los momentos de interacción."]},
+    {"obs":["Mueve brazos y piernas durante el juego.","Expresa incomodidad mediante llanto o movimientos.","Se muestra tranquilo cuando recibe atención cercana.","Disfruta el contacto corporal durante los cuidados.","Gira la cabeza para acomodarse o mirar.","Intenta levantar la cabeza por momentos al estar boca abajo."],"pro":["Muestra avance al fortalecer el control de su cabeza durante el juego seguro.","Está fortaleciendo el acomodo con apoyo del adulto durante las rutinas.","Comienza a anticipar algunas rutinas de cuidado."],"seg":["Se observó que sostiene la cabeza por más tiempo durante momentos de juego seguro."],"cie":["Se observó mayor participación corporal en experiencias cotidianas.","Continúa fortaleciendo sus movimientos y su bienestar durante las rutinas."],"ale":["Durante el juego seguro boca abajo, aún no se observa elevación de la cabeza.","En las situaciones observadas, todavía no se evidencian algunos movimientos corporales que se están valorando.","Durante el cuidado, aún no se observa respuesta corporal ante determinados estímulos cercanos."]},
+    {"obs":["Sigue con la mirada un objeto cercano.","Observa colores y formas llamativas.","Reacciona cuando escucha sonidos a su alrededor.","Explora texturas con sus manos cuando se le ofrecen.","Gira hacia un sonido que capta su atención.","Muestra interés por un juguete que se mueve."],"pro":["Muestra avance al seguir con la mirada objetos en movimiento.","Está fortaleciendo la exploración con materiales seguros ofrecidos por el adulto.","Comienza a descubrir sonidos y estímulos del entorno."],"seg":["Se observó mayor interés por objetos y sonidos cercanos."],"cie":["Se observó que amplió sus respuestas durante la exploración del entorno.","Continúa descubriendo objetos, sonidos y texturas."],"ale":["Durante las experiencias realizadas, aún no se observa seguimiento visual de objetos cercanos.","En las situaciones observadas, todavía no se evidencia reacción ante determinados sonidos.","Aún no se observan respuestas de exploración ante los materiales seguros ofrecidos."]}
+  ]},
+  {"short":"6 a 11 meses","age":"6 meses a 11 meses y 29 días","tag":"Exploración inicial","comp":[
+    {"obs":["Balbucea cuando alguien le conversa.","Sonríe durante juegos de palmas o escondidas.","Busca acercarse a las personas familiares.","Responde a gestos del adulto en juegos compartidos.","Muestra interés por escuchar canciones.","Extiende los brazos hacia una persona de confianza."],"pro":["Muestra avance al imitar gestos sencillos durante el juego.","Está ampliando sus respuestas con sonidos y movimientos.","Requiere más oportunidades de interacción frente a frente."],"seg":["Se observó que participa con mayor frecuencia en juegos de imitación."],"cie":["Se observó que fortaleció sus intercambios con personas cercanas.","Continúa ampliando gestos y sonidos para comunicarse."],"ale":["Durante los juegos frente a frente, aún no se observa imitación de gestos sencillos.","En las interacciones observadas, todavía no se evidencian respuestas gestuales ante llamados cercanos.","Aún no se ha observado participación mediante sonidos en los intercambios propuestos."]},
+    {"obs":["Busca alcanzar objetos cercanos por sí mismo.","Cambia de postura durante el juego según sus posibilidades.","Expresa preferencias mediante gestos o vocalizaciones.","Disfruta explorar con sus manos.","Se muestra activo al escuchar música.","Intenta sostener objetos que llaman su atención."],"pro":["Muestra avance al ensayar nuevas formas de desplazarse.","Está fortaleciendo el equilibrio al cambiar de postura.","Requiere apoyo en algunas acciones de las rutinas de cuidado."],"seg":["Se observó mayor iniciativa para cambiar de posición y alcanzar objetos."],"cie":["Se observó que amplió sus posibilidades de movimiento durante el juego.","Continúa construyendo autonomía en experiencias cotidianas."],"ale":["Durante el juego, aún no se observa la postura corporal que se está valorando para su edad.","En las experiencias observadas, todavía no se evidencian intentos de alcanzar objetos cercanos.","Aún no se observan determinados movimientos durante las actividades de exploración segura."]},
+    {"obs":["Sacude un objeto para escuchar su sonido.","Explora juguetes con manos y boca de forma segura.","Busca un objeto que se oculta parcialmente.","Golpea materiales para observar qué sucede.","Observa con curiosidad elementos del entorno.","Repite acciones que producen sonidos o movimientos."],"pro":["Muestra avance al buscar objetos que dejan de estar a la vista.","Está descubriendo los efectos de golpear o sacudir materiales.","Requiere oportunidades variadas para explorar con seguridad."],"seg":["Se observó que repite con mayor intención acciones que producen efectos."],"cie":["Se observó que fortaleció la exploración de objetos y materiales cercanos.","Continúa interesándose por los cambios que produce al jugar."],"ale":["Durante el juego con objetos, aún no se observan acciones de manipulación intencional.","En las experiencias realizadas, todavía no se evidencia búsqueda de objetos parcialmente ocultos.","Aún no se observan reacciones ante determinados cambios del entorno durante el juego."]}
+  ]},
+  {"short":"1 año","age":"1 año a 1 año, 11 meses y 29 días","tag":"Primeras iniciativas","comp":[
+    {"obs":["Usa gestos para pedir lo que necesita.","Dice algunas palabras durante el juego.","Busca compartir experiencias con el adulto.","Imita acciones que observa en personas cercanas.","Se interesa por jugar junto a otros niños.","Responde a indicaciones sencillas en situaciones habituales."],"pro":["Muestra avance al combinar palabras y gestos para comunicarse.","Está aprendiendo a participar en juegos con otros niños.","Requiere apoyo para expresar algunas necesidades con palabras."],"seg":["Se observó que utiliza más palabras y gestos para expresar lo que desea."],"cie":["Se observó que amplió sus formas de comunicarse con personas cercanas.","Continúa fortaleciendo su participación en juegos compartidos."],"ale":["Durante las interacciones observadas, aún no se evidencia uso de palabras o gestos para pedir ayuda.","En los juegos propuestos, todavía no se observa imitación de acciones cotidianas sencillas.","Aún no se han observado respuestas a determinadas indicaciones sencillas durante las rutinas."]},
+    {"obs":["Intenta alimentarse con sus propias manos o utensilios.","Muestra preferencias por juguetes o actividades.","Busca desplazarse hacia lo que le interesa.","Reconoce objetos de uso cotidiano.","Expresa agrado o molestia ante diferentes situaciones.","Intenta realizar acciones sencillas sin ayuda."],"pro":["Muestra avance al participar en rutinas de cuidado.","Está fortaleciendo la iniciativa para hacer cosas por sí mismo.","Requiere apoyo para expresar algunas emociones durante el juego."],"seg":["Se observó que participa con más iniciativa en rutinas de alimentación y cuidado."],"cie":["Se observó mayor iniciativa en actividades cotidianas.","Continúa construyendo autonomía y formas de expresar sus emociones."],"ale":["En las rutinas, aún no se evidencian intentos de realizar la acción de autocuidado valorada.","Durante las actividades observadas, todavía no se observa iniciativa para participar en algunas tareas cotidianas.","Aún no se evidencia reconocimiento de determinadas partes del cuerpo durante el juego."]},
+    {"obs":["Explora recipientes y objetos de distintos tamaños.","Apila o encaja piezas durante el juego.","Observa qué sucede al dejar caer un objeto.","Busca diferentes maneras de alcanzar un juguete.","Repite acciones que generan efectos visibles.","Imita algunas acciones cotidianas con objetos."],"pro":["Muestra avance al descubrir distintas formas de usar materiales.","Está resolviendo pequeños retos durante el juego.","Requiere acompañamiento para ampliar sus experiencias de exploración."],"seg":["Se observó que ensaya nuevas maneras de apilar, introducir y sacar objetos."],"cie":["Se observó que amplió sus formas de explorar y manipular materiales.","Continúa desarrollando curiosidad por los efectos de sus acciones."],"ale":["Durante los juegos ofrecidos, aún no se observan acciones de exploración intencional de objetos.","En las experiencias realizadas, todavía no se evidencia búsqueda de soluciones sencillas para alcanzar un objeto.","Aún no se han observado acciones de causa y efecto con los materiales propuestos."]}
+  ]},
+  {"short":"2 años","age":"2 años a 2 años, 11 meses y 29 días","tag":"Juego y autonomía","comp":[
+    {"obs":["Se comunica mediante frases breves durante el juego.","Busca compartir materiales con otros niños.","Participa en canciones y rondas con entusiasmo.","Expresa lo que desea mediante palabras y gestos.","Muestra al adulto lo que ha realizado.","Se integra a juegos sencillos con acompañamiento."],"pro":["Muestra avance al aprender a esperar turnos en juegos compartidos.","Está ampliando las frases que usa para expresarse.","Requiere acompañamiento para resolver desacuerdos con otros niños."],"seg":["Se observó que participa con mayor frecuencia en juegos con sus compañeros."],"cie":["Se observó que fortaleció su comunicación en situaciones cotidianas.","Continúa aprendiendo a compartir y expresar sus ideas."],"ale":["En las situaciones observadas, aún no se evidencia comunicación mediante frases sencillas.","Durante los juegos compartidos, todavía no se observa participación en intercambios con otros niños.","Aún no se ha observado respuesta a determinadas indicaciones sencillas del adulto."]},
+    {"obs":["Intenta ponerse algunas prendas con ayuda.","Reconoce objetos y pertenencias personales.","Expresa alegría, tristeza o enojo con gestos o palabras.","Elige materiales o actividades según sus intereses.","Participa en rutinas sencillas de cuidado.","Solicita ayuda cuando encuentra una dificultad."],"pro":["Muestra avance al fortalecer su autonomía en las rutinas de higiene.","Está aprendiendo a expresar el enojo sin lastimar a otros.","Comienza a reconocer y nombrar algunas emociones."],"seg":["Se observó mayor iniciativa para realizar acciones de autocuidado."],"cie":["Se observó que avanzó en la participación en sus rutinas diarias.","Continúa fortaleciendo la expresión y regulación de sus emociones."],"ale":["En las rutinas observadas, aún no se evidencia iniciativa para realizar acciones de autocuidado.","Durante las experiencias propuestas, todavía no se observa elección autónoma entre materiales disponibles.","Aún no se han observado determinadas formas de expresión emocional durante el juego."]},
+    {"obs":["Explora bloques y prueba distintas formas de apilarlos.","Agrupa objetos por alguna característica visible.","Juega a representar situaciones de su hogar.","Prueba distintos usos de un mismo material.","Busca soluciones sencillas ante retos del juego.","Reconoce elementos familiares de su entorno."],"pro":["Muestra avance al aprender a agrupar objetos por sus características.","Está representando situaciones cotidianas durante el juego.","Requiere oportunidades para explorar nuevos materiales."],"seg":["Se observó que ensaya más alternativas al construir y explorar objetos."],"cie":["Se observó que fortaleció su curiosidad y participación en juegos de exploración.","Continúa descubriendo relaciones entre objetos y acciones."],"ale":["En las actividades propuestas, aún no se evidencia agrupación de objetos por características visibles.","Durante el juego, todavía no se observan intentos de construir o encajar materiales sencillos.","Aún no se ha observado exploración de distintas formas de utilizar los objetos."]}
+  ]},
+  {"short":"3 años","age":"3 años a 3 años, 11 meses y 29 días","tag":"Conversar y compartir","comp":[
+    {"obs":["Conversa sobre sus juegos e intereses.","Expresa ideas durante actividades grupales.","Participa en juegos con uno o varios compañeros.","Pregunta cuando desea saber algo.","Pide ayuda o explica sus necesidades con claridad creciente.","Comparte experiencias familiares durante la conversación."],"pro":["Muestra avance al aprender a escuchar cuando otros hablan.","Está fortaleciendo los acuerdos de turnos de juego con apoyo del adulto.","Continúa ampliando la claridad de sus relatos cotidianos."],"seg":["Se observó que expresa con mayor claridad sus ideas durante las conversaciones."],"cie":["Se observó que fortaleció su participación en intercambios con otros.","Continúa aprendiendo a escuchar y compartir acuerdos."],"ale":["Durante las conversaciones propuestas, aún no se observa expresión verbal de ideas sencillas.","En las experiencias grupales, todavía no se evidencia participación en juegos compartidos.","Aún no se ha observado uso de palabras para comunicar determinadas necesidades."]},
+    {"obs":["Expresa con palabras cómo se siente.","Intenta resolver tareas sencillas por sí mismo.","Reconoce gustos y preferencias personales.","Participa en rutinas de higiene con menor ayuda.","Muestra satisfacción cuando logra algo.","Solicita acompañamiento ante una situación difícil."],"pro":["Muestra avance al aprender a calmarse cuando algo no resulta como espera.","Está fortaleciendo la autonomía durante el autocuidado.","Requiere apoyo para expresar con palabras algunas emociones."],"seg":["Se observó que realiza más acciones cotidianas sin solicitar ayuda."],"cie":["Se observó mayor seguridad al intentar actividades nuevas.","Continúa construyendo herramientas para expresar emociones."],"ale":["En las rutinas observadas, aún no se evidencia iniciativa para realizar algunas tareas de autocuidado.","Durante las experiencias propuestas, todavía no se observa reconocimiento de determinados gustos o elecciones.","Aún no se han observado intentos de expresar lo que siente en situaciones cotidianas."]},
+    {"obs":["Hace preguntas sobre los objetos que observa.","Representa situaciones de su comunidad en el juego.","Construye con piezas y compara resultados.","Clasifica materiales según algunas características.","Explora cambios al mezclar agua, arena u otros materiales seguros.","Relaciona acciones sencillas con sus consecuencias."],"pro":["Muestra avance al comenzar a explicar por qué suceden algunos cambios.","Está ampliando sus juegos de representación de la vida cotidiana.","Requiere nuevas oportunidades para observar y comparar materiales."],"seg":["Se observó que realiza más preguntas y propone alternativas durante la exploración."],"cie":["Se observó que fortaleció su curiosidad frente al entorno cotidiano.","Continúa ampliando la representación de lo que observa."],"ale":["Durante el juego, aún no se observa representación de situaciones cotidianas con objetos.","En las experiencias de exploración, todavía no se evidencia interés por probar diferentes soluciones.","Aún no se observan relaciones sencillas entre acciones y resultados en los juegos propuestos."]}
+  ]},
+  {"short":"4 a 5 años","age":"4 años a 5 años, 11 meses y 29 días","tag":"Ideas y descubrimientos","comp":[
+    {"obs":["Participa en conversaciones y propone ideas.","Relata experiencias de su familia o comunidad.","Escucha a sus compañeros durante actividades grupales.","Colabora en tareas sencillas compartidas.","Busca acuerdos para organizar juegos con otros niños.","Formula preguntas y comenta lo que piensa."],"pro":["Muestra avance al fortalecer la escucha de diferentes opiniones.","Está aprendiendo a resolver desacuerdos mediante el diálogo con apoyo.","Continúa ampliando la organización de sus relatos."],"seg":["Se observó que expresa sus ideas con mayor claridad y escucha más a otros."],"cie":["Se observó que fortaleció su participación y cooperación en actividades grupales.","Continúa construyendo acuerdos durante la convivencia."],"ale":["En las interacciones observadas, aún no se evidencia participación en conversaciones compartidas.","Durante los juegos grupales, todavía no se observan aportes verbales para organizar la actividad.","Aún no se ha observado comprensión de determinadas indicaciones acordes con la situación."]},
+    {"obs":["Realiza rutinas de cuidado con autonomía creciente.","Expresa sus preferencias y explica algunas elecciones.","Reconoce logros propios y los comparte.","Intenta resolver retos antes de solicitar ayuda.","Identifica emociones propias durante situaciones cotidianas.","Muestra confianza al participar en nuevas actividades."],"pro":["Muestra avance al fortalecer la calma ante situaciones frustrantes.","Está aprendiendo a reconocer estrategias para resolver dificultades.","Requiere acompañamiento en algunas decisiones de autocuidado."],"seg":["Se observó que demuestra mayor seguridad para enfrentar pequeños retos."],"cie":["Se observó que fortaleció su autonomía y confianza en actividades diarias.","Continúa aprendiendo a reconocer y expresar sus emociones."],"ale":["En las rutinas observadas, aún no se evidencia iniciativa para realizar determinadas acciones de autocuidado.","Durante las actividades propuestas, todavía no se observa búsqueda de soluciones antes de pedir ayuda.","Aún no se han observado intentos de reconocer y expresar emociones en situaciones cotidianas."]},
+    {"obs":["Describe semejanzas y diferencias entre objetos.","Propone soluciones sencillas durante el juego.","Representa oficios y situaciones de su comunidad.","Explora materiales y explica qué ha descubierto.","Observa cambios del entorno y hace preguntas.","Construye juegos o historias a partir de experiencias conocidas."],"pro":["Muestra avance al comenzar a explicar relaciones entre acciones y resultados.","Está enriqueciendo sus relatos sobre el entorno.","Requiere nuevas experiencias para comparar, imaginar y representar."],"seg":["Se observó que explica con más detalle lo que observa y descubre."],"cie":["Se observó que fortaleció sus formas de explorar y representar el mundo.","Continúa ampliando preguntas y explicaciones sobre su entorno."],"ale":["Durante las experiencias propuestas, aún no se observa comparación de características de objetos.","En el juego, todavía no se evidencia representación de situaciones familiares o comunitarias.","Aún no se han observado propuestas de solución frente a los retos sencillos presentados."]}
+  ]}
+];
+
+const IMGS={"hero":"recursos/ilustracion_001.webp","fig0":"recursos/ilustracion_002.webp","fig1":"recursos/ilustracion_003.webp","fig2":"recursos/ilustracion_004.webp","fig3":"recursos/ilustracion_005.webp","fig4":"recursos/ilustracion_006.webp","fig5":"recursos/ilustracion_007.webp"};
+const GUIDES={"01_BIENVENIDA":"recursos/guia_001.mp3","02_ELEGIR_EDAD":"recursos/guia_002.mp3","03_EDAD_0_5_MESES":"recursos/guia_003.mp3","04_EDAD_6_11_MESES":"recursos/guia_004.mp3","05_EDAD_1_ANO":"recursos/guia_005.mp3","06_EDAD_2_ANOS":"recursos/guia_006.mp3","07_EDAD_3_ANOS":"recursos/guia_007.mp3","08_EDAD_4_5_ANOS":"recursos/guia_008.mp3","09_ELEGIR_TEMA":"recursos/guia_009.mp3","10_CON_OTRAS_PERSONAS":"recursos/guia_010.mp3","11_CONSIGO_MISMO":"recursos/guia_011.mp3","12_CON_EL_MUNDO":"recursos/guia_012.mp3","13_ANTES_DE_EPA":"recursos/guia_013.mp3","14_ESPERADO_E":"recursos/guia_014.mp3","15_EN_PROCESO_P":"recursos/guia_015.mp3","16_ALERTA_A":"recursos/guia_016.mp3","17_USAR_EJEMPLOS":"recursos/guia_017.mp3","18_VER_MAS":"recursos/guia_018.mp3","19_SEGUIMIENTO_Y_CIERRE":"recursos/guia_019.mp3","20_SEGUIMIENTO_V2_V3":"recursos/guia_020.mp3","21_CIERRE_VF":"recursos/guia_021.mp3","22_GUIA_RAPIDA":"recursos/guia_022.mp3","23_RECUERDA":"recursos/guia_023.mp3"};
+
+const groupNames=['Con otras personas','Consigo mismo','Con el mundo'];
+const topicNotes=['Comunicación, afecto y cómo comparte con su familia o amigos.','Autonomía, higiene, cuerpo y expresión de emociones.','Curiosidad, exploración de objetos, preguntas y juego.'];
+
+/* Chips situacionales y pedagógicos adaptados */
+const momentOptions=[
+  'Durante el momento de juego libre',
+  'En la rutina de alimentación',
+  'Durante el saludo y bienvenida',
+  'En las actividades pedagógicas',
+  'En el momento de higiene y cuidado'
+];
+
+const howOptionsByMode={
+  obs:['por iniciativa propia','con alegría y entusiasmo','compartiendo con tranquilidad','con seguridad y soltura'],
+  pro:['con motivación y apoyo del adulto','por ratos cortos','ensayando paso a paso','mostrando interés con ayuda'],
+  ale:['a pesar del estímulo cercano del cuidador','mostrando timidez o desinterés','sin lograr todavía enfocar su atención','mostrando incomodidad']
+};
+
+/* ==============================================================
+   ESTADO DINÁMICO DE LA APLICACIÓN
+============================================================== */
+const S={
+  step:'age',
+  age:null,
+  topic:null,
+  mode:null,
+  kidName:'',
+  selectedIdx:null,
+  basePhrase:'',
+  momentText:'',
+  howText:'',
+  draftObs:'',
+  muted:false,
+  currentAudio:null,
+  currentBtn:null,
+  playSeq:0,
+  history:[]
+};
+
+// Recuperar historial guardado de hoy
+try{
+  const h=localStorage.getItem('fami_obs_history');
+  if(h)S.history=JSON.parse(h);
+}catch(_){}
+
+function $(id){return document.getElementById(id)}
+function vibrate(){if('vibrate' in navigator)try{navigator.vibrate(30)}catch(_){}}
+
+function setAudioStatus(txt){$('audioMsg').textContent=txt}
+function stopAllAudio(msg){
+  S.playSeq++;
+  if(S.currentAudio){
+    S.currentAudio.pause();
+    S.currentAudio=null;
+  }
+  if('speechSynthesis' in window){
+    try{window.speechSynthesis.cancel()}catch(_){}
+  }
+  if(S.currentBtn){
+    S.currentBtn.classList.remove('speaking');
+    S.currentBtn=null;
+  }
+  $('audioDot').classList.remove('on');
+  if(msg)setAudioStatus(msg);
+}
+
+function playTts(text,seq){
+  if(!('speechSynthesis' in window)||!text){
+    stopAllAudio('Audio finalizado.');
+    return;
+  }
+  try{
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='es-CO';
+    u.rate=0.92;
+    u.onend=()=>{if(seq===S.playSeq)stopAllAudio('Terminó la explicación.')};
+    u.onerror=()=>{if(seq===S.playSeq)stopAllAudio('Audio listo.')};
+    window.speechSynthesis.speak(u);
+  }catch(_){stopAllAudio('No fue posible el audio.')}
+}
+
+function playSound(src,label,btn,ttsFallback){
+  stopAllAudio();
+  if(S.muted){
+    setAudioStatus('El sonido está apagado. Toca «🔊 Voz» arriba si lo quieres activar.');
+    return;
+  }
+  const seq=++S.playSeq;
+  S.currentBtn=btn;
+  if(btn)btn.classList.add('speaking');
+  $('audioDot').classList.add('on');
+  setAudioStatus('Escuchando: '+label);
+
+  if(!src){
+    playTts(ttsFallback,seq);
+    return;
+  }
+
+  const audio=new Audio(src);
+  S.currentAudio=audio;
+  audio.onended=()=>{if(seq===S.playSeq)stopAllAudio('Terminó la explicación.')};
+  audio.onerror=()=>{if(seq===S.playSeq)playTts(ttsFallback,seq)};
+  audio.play().catch(()=>{if(seq===S.playSeq)playTts(ttsFallback,seq)});
+}
+
+/* Redactar automáticamente con un clic */
+function updateObservationText(){
+  if(!S.basePhrase)return;
+  let p=S.basePhrase.trim().replace(/\.$/,'');
+  
+  // Si pusieron nombre, lo integramos de forma cariñosa
+  const name=S.kidName.trim();
+  if(name){
+    // Cambiar 'El niño' o inicio si es necesario
+    p=name+' '+p.charAt(0).toLowerCase()+p.slice(1);
+  }
+
+  let finalTxt=p;
+  if(S.momentText){
+    finalTxt=`${S.momentText}, ${finalTxt.charAt(0).toLowerCase()+finalTxt.slice(1)}`;
+  }
+  if(S.howText){
+    finalTxt=`${finalTxt} ${S.howText}`;
+  }
+  S.draftObs=finalTxt+'.';
+  const ta=$('draftTextarea');
+  if(ta)ta.value=S.draftObs;
+}
+
+/* Guardar en libreta local */
+function saveToHistory(text){
+  if(!text)return;
+  const item={
+    date:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
+    kid:S.kidName.trim()||'Sin nombre',
+    text:text
+  };
+  S.history.unshift(item);
+  if(S.history.length>8)S.history.pop();
+  try{localStorage.setItem('fami_obs_history',JSON.stringify(S.history))}catch(_){}
+  renderHistory();
+}
+
+function renderHistory(){
+  const sec=$('notebookSection');
+  const box=$('notebookItems');
+  if(!sec||!box)return;
+  if(S.history.length===0){
+    sec.hidden=true;
+    return;
+  }
+  sec.hidden=false;
+  box.innerHTML=S.history.map((it,i)=>`
+    <div class="saved-item">
+      <span><strong>[${it.kid}] ${it.date}:</strong> ${it.text}</span>
+      <button class="btn-tool" onclick="copySnippet('${encodeURIComponent(it.text)}')">📋 Copiar</button>
+    </div>
+  `).join('');
+}
+
+window.copySnippet=function(encoded){
+  const txt=decodeURIComponent(encoded);
+  navigator.clipboard.writeText(txt).then(()=>{
+    setAudioStatus('¡Observación copiada del cuaderno!');
+    vibrate();
+  });
+};
+
+/* ==============================================================
+   RENDERIZADO DE CADA PANTALLA
+============================================================== */
+function renderStage(){
+  const st=$('mainStage');
+  stopAllAudio();
+
+  // Actualizar estado de las 4 pestañas superiores
+  document.querySelectorAll('.nav-tab').forEach(t=>{
+    const step=t.dataset.step;
+    t.classList.toggle('active',step===S.step);
+    if(step==='topic')t.disabled=(S.age===null);
+    if(step==='rating')t.disabled=(S.topic===null);
+    if(step==='examples')t.disabled=(S.mode===null);
+  });
+
+  if(S.step==='age'){
+    st.innerHTML=`
+      <div class="stage-hero">
+        <div>
+          <span class="badge">Paso 1 de 4</span>
+          <h2>¿Qué edad tiene el niño o la niña?</h2>
+          <p>Toca el grupo de edad que vas a valorar hoy:</p>
+        </div>
+        <button class="btn-voice" onclick="playSound(GUIDES['02_ELEGIR_EDAD'],'explicación edad',this,'Toca el cuadro con la edad cumplida del niño o la niña.')">🔊 Escuchar</button>
+      </div>
+      <div class="age-cards">
+        ${AGES.map((a,i)=>`
+          <button class="age-btn" type="button" onclick="selectAge(${i})" style="--bg-card:${['#eef6ff','#fdf2f8','#fefce8','#f0fdf4','#f5f3ff','#fff7ed'][i]};--border-color:${['#93c5fd','#f472b6','#facc15','#4ade80','#a78bfa','#fb923c'][i]}">
+            <div>
+              <strong>${a.short}</strong>
+              <small>${a.tag}</small>
+              <span class="play-hint">Tocar para elegir 👉</span>
+            </div>
+            <img src="${IMGS['fig'+i]}" alt="" onerror="this.style.display='none'">
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }
+  else if(S.step==='topic'){
+    st.innerHTML=`
+      <div class="stage-hero">
+        <div>
+          <span class="badge">Paso 2 de 4 · ${AGES[S.age].short}</span>
+          <h2>¿Qué relación vas a valorar?</h2>
+          <p>Toca el área donde se encuentra el propósito:</p>
+        </div>
+        <button class="btn-voice" onclick="playSound(GUIDES['09_ELEGIR_TEMA'],'elegir tema',this,'Elige si vas a escribir sobre la relación con otras personas, consigo mismo o con el mundo.')">🔊 Escuchar</button>
+      </div>
+      <div class="topic-cards">
+        ${groupNames.map((name,i)=>`
+          <button class="topic-btn" type="button" onclick="selectTopic(${i})" style="--topic-bg:${['#eff6ff','#f0fdf4','#fffbeb'][i]};--topic-color:${['#2563eb','#16a34a','#d97706'][i]}">
+            <div class="topic-icon">${['👥','❤️','🌍'][i]}</div>
+            <strong>${name}</strong>
+            <p>${topicNotes[i]}</p>
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }
+  else if(S.step==='rating'){
+    st.innerHTML=`
+      <div class="stage-hero">
+        <div>
+          <span class="badge">Paso 3 de 4 · ${groupNames[S.topic]}</span>
+          <h2>¿Qué letra marcaste en la escala?</h2>
+          <p>Toca la letra que resultó de tu observación en la ficha:</p>
+        </div>
+        <button class="btn-voice" onclick="playSound(GUIDES['13_ANTES_DE_EPA'],'valoración',this,'Toca si marcaste Esperado con la E, En proceso con la P o Alerta con la letra A.')">🔊 Escuchar</button>
+      </div>
+      <div class="rate-cards">
+        <button class="rate-btn" type="button" onclick="selectMode('obs')" style="--rate-bg:#ecfdf5;--rate-border:#86efac;--rate-dot:#10b981">
+          <div class="rate-circle">E</div>
+          <div>
+            <strong>Esperado (E)</strong>
+            <small>Logra el propósito para su edad según la escala.</small>
+          </div>
+        </button>
+        <button class="rate-btn" type="button" onclick="selectMode('pro')" style="--rate-bg:#fffbeb;--rate-border:#fde047;--rate-dot:#f59e0b">
+          <div class="rate-circle">P</div>
+          <div>
+            <strong>En proceso (P)</strong>
+            <small>Lo está logrando con apoyo o acompañamiento del adulto.</small>
+          </div>
+        </button>
+        <button class="rate-btn" type="button" onclick="selectMode('ale')" style="--rate-bg:#fef2f2;--rate-border:#fca5a5;--rate-dot:#ef4444">
+          <div class="rate-circle">A</div>
+          <div>
+            <strong>Alerta (A)</strong>
+            <small>Aún no se observa un propósito clave para su edad.</small>
+          </div>
+        </button>
+      </div>
+    `;
+  }
+  else if(S.step==='examples'){
+    const list=AGES[S.age].comp[S.topic][S.mode]||[];
+    st.innerHTML=`
+      <div class="stage-hero">
+        <div>
+          <span class="badge">Paso 4 de 4 · ${AGES[S.age].short} · ${groupNames[S.topic]}</span>
+          <h2>Toca la frase que más se parezca</h2>
+          <p>Escucha las opciones y toca «Elegir esta frase» para armar tu texto:</p>
+        </div>
+        <button class="btn-voice" onclick="playSound(GUIDES['17_USAR_EJEMPLOS'],'ejemplos',this,'Escucha las frases y toca la que describe lo que viste en el niño.')">🔊 Escuchar</button>
+      </div>
+
+      <div class="examples-list">
+        ${list.map((phrase,i)=>{
+          const isSel=S.selectedIdx===i;
+          return `
+            <div class="example-card ${isSel?'selected':''}">
+              <div class="example-body">
+                <span class="example-num">${i+1}</span>
+                <span class="example-text">${phrase}</span>
+              </div>
+              <div class="example-actions">
+                <button class="btn-card-action" type="button" onclick="speakSingleExample('${encodeURIComponent(phrase)}',this)">🔊 Escuchar</button>
+                <button class="btn-card-action btn-select" type="button" onclick="pickExample(${i},'${encodeURIComponent(phrase)}')">
+                  ${isSel?'✓ Frase elegida':'👉 Elegir esta frase'}
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      <!-- Asistente interactivo automático de clic -->
+      <section class="constructor-box" id="builderBox">
+        <div class="constructor-header">
+          <h3>🪄 ¡Arma tu observación en 2 clics!</h3>
+          <input class="kid-name-input" type="text" id="kidNameInput" placeholder="Nombre del niño/a (opcional)" value="${S.kidName}" oninput="setKidName(this.value)">
+        </div>
+
+        <div class="question-group">
+          <span class="question-title">1. ¿En qué momento lo observaste? (Toca uno):</span>
+          <div class="chips-cloud">
+            ${momentOptions.map(m=>`
+              <button class="chip-click ${S.momentText===m?'active':''}" type="button" onclick="setMoment('${encodeURIComponent(m)}')">${m}</button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="question-group">
+          <span class="question-title">2. ¿Cómo lo hizo el niño o niña? (Toca uno):</span>
+          <div class="chips-cloud">
+            ${(howOptionsByMode[S.mode]||howOptionsByMode['obs']).map(h=>`
+              <button class="chip-click ${S.howText===h?'active':''}" type="button" onclick="setHow('${encodeURIComponent(h)}')">${h}</button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="question-group">
+          <span class="question-title">3. Tu observación redactada lista para anotar:</span>
+          <textarea id="draftTextarea" oninput="S.draftObs=this.value">${S.draftObs}</textarea>
+        </div>
+
+        <div class="action-bar-chips">
+          <button class="btn-primary-action" type="button" onclick="copyFinalText()">📋 Copiar observación</button>
+          <button class="btn-primary-action btn-whatsapp" type="button" onclick="sendToWhatsApp()">📲 Enviar por WhatsApp</button>
+          <button class="btn-secondary-action" type="button" onclick="readMyCustomObs()">🔊 Escuchar cómo quedó</button>
+        </div>
+      </section>
+    `;
+  }
+}
+
+/* ==============================================================
+   CONTROLADORES DE ACCIÓN
+============================================================== */
+window.selectAge=function(i){
+  vibrate();
+  S.age=i;S.topic=null;S.mode=null;S.selectedIdx=null;S.basePhrase='';S.draftObs='';
+  S.step='topic';
+  renderStage();
+};
+window.selectTopic=function(i){
+  vibrate();
+  S.topic=i;S.mode=null;S.selectedIdx=null;S.basePhrase='';S.draftObs='';
+  S.step='rating';
+  renderStage();
+};
+window.selectMode=function(m){
+  vibrate();
+  S.mode=m;S.selectedIdx=null;S.basePhrase='';S.draftObs='';
+  S.step='examples';
+  renderStage();
+};
+
+window.pickExample=function(idx,encPhrase){
+  vibrate();
+  S.selectedIdx=idx;
+  S.basePhrase=decodeURIComponent(encPhrase);
+  updateObservationText();
+  renderStage();
+  $('builderBox')?.scrollIntoView({behavior:'smooth'});
+  setAudioStatus('¡Frase elegida! Ahora toca el momento y cómo lo hizo.');
+};
+
+window.speakSingleExample=function(encPhrase,btn){
+  const txt=decodeURIComponent(encPhrase);
+  playSound(null,txt,btn,txt);
+};
+
+window.setKidName=function(val){
+  S.kidName=val;
+  updateObservationText();
+};
+
+window.setMoment=function(enc){
+  vibrate();
+  const val=decodeURIComponent(enc);
+  S.momentText=(S.momentText===val)?'':val;
+  updateObservationText();
+  renderStage();
+};
+
+window.setHow=function(enc){
+  vibrate();
+  const val=decodeURIComponent(enc);
+  S.howText=(S.howText===val)?'':val;
+  updateObservationText();
+  renderStage();
+};
+
+window.copyFinalText=function(){
+  const txt=$('draftTextarea')?.value||S.draftObs;
+  if(!txt.trim()){
+    setAudioStatus('Primero toca una frase arriba para copiar.');
+    return;
+  }
+  navigator.clipboard.writeText(txt.trim()).then(()=>{
+    vibrate();
+    saveToHistory(txt.trim());
+    setAudioStatus('🎉 ¡Copiada con éxito! Ya puedes pegarla en tu reporte.');
+  }).catch(()=>{
+    saveToHistory(txt.trim());
+    setAudioStatus('Texto listo para copiar.');
+  });
+};
+
+window.sendToWhatsApp=function(){
+  const txt=$('draftTextarea')?.value||S.draftObs;
+  if(!txt.trim())return;
+  saveToHistory(txt.trim());
+  const ficha=`*VALORACIÓN EVCDI-R*\n• Niño/a: ${S.kidName||'Por registrar'}\n• Edad: ${AGES[S.age].short}\n• Área: ${groupNames[S.topic]}\n\n*Observación:*\n${txt.trim()}`;
+  window.open('https://wa.me/?text='+encodeURIComponent(ficha),'_blank');
+};
+
+window.readMyCustomObs=function(){
+  const txt=$('draftTextarea')?.value||S.draftObs;
+  if(txt)playSound(null,'tu observación',null,txt);
+};
+
+/* Botones cabecera y pestañas */
+$('btnHome').onclick=()=>{
+  S.step='age';
+  renderStage();
+};
+$('btnHelp').onclick=()=>{
+  playSound(GUIDES['22_GUIA_RAPIDA'],'ayuda',null,'Sigue los 4 pasos: elige la edad, luego el tema, la letra de la escala y toca la frase para armar tu observación.');
+};
+$('btnSound').onclick=()=>{
+  S.muted=!S.muted;
+  $('btnSound').textContent=S.muted?'🔇 Voz: NO':'🔊 Voz: SÍ';
+  $('btnSound').setAttribute('aria-pressed',String(!S.muted));
+  if(S.muted)stopAllAudio('Voz desactivada.');
+  else setAudioStatus('Voz activada.');
+};
+$('stopAudioBtn').onclick=()=>stopAllAudio('Audio detenido.');
+
+document.querySelectorAll('.nav-tab').forEach(b=>{
+  b.onclick=()=>{
+    S.step=b.dataset.step;
+    renderStage();
+  };
+});
+
+$('clearNotebook').onclick=()=>{
+  S.history=[];
+  try{localStorage.removeItem('fami_obs_history')}catch(_){}
+  renderHistory();
+};
+
+// Iniciar aplicación
+renderStage();
+renderHistory();
+</script>
+</body>
+</html>
